@@ -7,13 +7,13 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import ProductCard from "./Product_card";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
+const Item = styled(Paper)(() => ({
+  backgroundColor: "#fff",
   textAlign: "center",
-  color: theme.palette.text.secondary,
   fontSize: "14px",
+  margin: "10px",
+  padding: "5px",
+  position: "relative",
 }));
 
 const Productprovider = () => {

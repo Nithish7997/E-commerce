@@ -1,19 +1,23 @@
+import { useState } from "react";
+import plain from "../ImageForWeb/heart.png";
+import RedHeart from "../ImageForWeb/R-heart.png";
 const ProductCard = (List_item) => {
-  const [toggle, setToggle] = false;
+  const [toggle, setToggle] = useState(false);
   const handleToggle = () => {
-    setToggle(true);
+    setToggle(!toggle);
   };
   return (
     <>
-      {toggle ? (
-        <button onClick={handleToggle}>
-          <image></image>
-        </button>
-      ) : (
-        <button>
-          <image></image>
-        </button>
-      )}
+      <img
+        style={{
+          width: "35px",
+          position: "absolute",
+          right: "10px",
+          display: "flex",
+        }}
+        onClick={handleToggle}
+        src={toggle ? RedHeart : plain}
+      />
       <img
         style={{ width: "200px", height: "300px" }}
         src={`${List_item.List_item.image}`}
