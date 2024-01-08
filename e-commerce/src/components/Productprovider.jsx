@@ -5,7 +5,7 @@ import { experimentalStyled as styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Product_card from "./Product_card";
+import ProductCard from "./Product_card";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -15,7 +15,6 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   fontSize: "14px",
 }));
-// const productProvider = createContext();
 
 const Productprovider = () => {
   const location = useLocation();
@@ -46,16 +45,7 @@ const Productprovider = () => {
                 {product.map((items, index) => (
                   <Grid item xs={2} sm={4} md={4} key={index}>
                     <Item sx={{ height: "480px" }}>
-                      <Product_card List_item={items} />
-                      {/* <h1>{items.title}</h1>
-                      <img
-                        key={items.id}
-                        src={`${items.image} `}
-                        alt="Product"
-                        width={"40%"}
-                      ></img>
-                      <p>{items.description}</p>
-                      <p>Price:{items.price}</p> */}
+                      <ProductCard List_item={items} />
                     </Item>
                   </Grid>
                 ))}
@@ -67,4 +57,5 @@ const Productprovider = () => {
     </>
   );
 };
+
 export default Productprovider;

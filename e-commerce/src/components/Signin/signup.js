@@ -59,12 +59,6 @@ function Signin() {
         <div className={`${styles.formContainer} ${styles.signUpContainer}`}>
           <form onSubmit={signUp}>
             <h1>Create Account</h1>
-            {/* <input
-            type="text"
-            placeholder="Name"
-            value={username}
-            onChange={(e) => setUserName(e.target.value)}
-          /> */}
             <input
               type="email"
               placeholder="Email"
@@ -95,7 +89,7 @@ function Signin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <a href="#">Forgot your password?</a>
+
             <button type="submit">Sign In</button>
           </form>
         </div>
