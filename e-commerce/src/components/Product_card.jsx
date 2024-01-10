@@ -1,8 +1,22 @@
 import { useState } from "react";
+import { collection, addDoc } from "firebase/firestore/lite";
 import plain from "../ImageForWeb/heart.png";
 import RedHeart from "../ImageForWeb/R-heart.png";
+import { db } from "../firebaseConfig";
+
 const ProductCard = (List_item) => {
   const [toggle, setToggle] = useState(false);
+
+  const handlecart = async () => {
+    const docRef = await addDoc(collection(db, "CartData"), {
+      Title: `${List_item.List_item.title}`,
+      Image: `${List_item.List_item.image}`,
+      Price: `${List_item.List_item.price}`,
+      Qunatity: 0,
+    });
+    console.log("Document written with ID: ", docRef.id);
+  };
+
   const handleToggle = () => {
     setToggle(!toggle);
   };
@@ -36,7 +50,7 @@ const ProductCard = (List_item) => {
       <p style={{ display: "flex", fontWeight: "900" }}>
         Price:{List_item.List_item.price}
       </p>
-      <button>Add to Cart</button>
+      <button onClick={handlecart}>Add to Cart</button>
     </>
   );
 };

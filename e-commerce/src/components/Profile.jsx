@@ -6,8 +6,10 @@ import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
+import { useNavigate } from "react-router";
 
 export default function AccountMenu() {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -77,7 +79,13 @@ export default function AccountMenu() {
       >
         <MenuItem>Profile</MenuItem>
         <MenuItem>My account</MenuItem>
-        <MenuItem>logout</MenuItem>
+        <MenuItem
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          logout
+        </MenuItem>
       </Menu>
     </React.Fragment>
   );
