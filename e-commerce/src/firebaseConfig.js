@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore/lite";
+
 // TODO: Add SDKs for Firebase products that you want to use
 //
 // Your web app's Firebase configuration

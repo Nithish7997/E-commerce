@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore/lite";
+import { collection, addDoc, getDocs } from "firebase/firestore/lite";
 import plain from "../ImageForWeb/heart.png";
 import RedHeart from "../ImageForWeb/R-heart.png";
 import { db } from "../firebaseConfig";
+// import { runTransaction } from "firebase/firestore";
 
 const ProductCard = (List_item) => {
   const [toggle, setToggle] = useState(false);
@@ -14,10 +15,32 @@ const ProductCard = (List_item) => {
       Price: `${List_item.List_item.price}`,
       Qunatity: 0,
     });
+    const querySnapshot = await getDocs(collection(db, "CartData"));
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      // const id = doc.id;
+      console.log(doc.id, doc.data(), data.Price);
+    });
+    // const coll = collection(db, "cities");
+    // const snapshot = await getCountFromServer(coll);
+    // console.log("count: ", snapshot.data().count);
     console.log("Document written with ID: ", docRef.id);
   };
 
-  const handleToggle = () => {
+  const handleToggle = async () => {
+    if (!toggle) {
+      const docRef = await addDoc(collection(db, "WhislistData"), {
+        Title: `${List_item.List_item.title}`,
+        Image: `${List_item.List_item.image}`,
+        Price: `${List_item.List_item.price}`,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    }
+
+    // await runTransaction(db, async (transaction) => {
+    //   const sfDoc = await transaction.get(sfDocRef);
+    //   if (!sfDoc.exists()) {
+    //     throw "Document does not exist!";}})
     setToggle(!toggle);
   };
   return (
@@ -31,11 +54,12 @@ const ProductCard = (List_item) => {
         }}
         onClick={handleToggle}
         src={toggle ? RedHeart : plain}
+        alt="Toggler"
       />
       <img
         style={{ width: "200px", height: "300px" }}
         src={`${List_item.List_item.image}`}
-        alt=""
+        alt={`${List_item.List_item.title}`}
       />
       <h1
         style={{

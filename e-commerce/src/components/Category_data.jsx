@@ -5,19 +5,18 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
+const Item = styled(Paper)(() => ({
+  backgroundColor: "#fff",
+  padding: "10px",
   textAlign: "center",
-  color: theme.palette.text.secondary,
+  color: "#fff",
   boxShadow: "none",
 }));
 
 export default function Category_data({ catdata }) {
   const navigate = useNavigate();
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{}}>
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}

@@ -4,7 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
+// import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router";
 
@@ -26,7 +26,7 @@ export default function AccountMenu() {
           alignItems: "center",
           textAlign: "center",
           position: "absolute",
-          right: "20px",
+          right: "70px",
         }}
       >
         <Tooltip title="Account settings">

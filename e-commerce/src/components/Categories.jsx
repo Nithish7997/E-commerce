@@ -7,14 +7,14 @@ import Category_data from "./Category_data";
 
 const style = {
   position: "absolute",
-  top: "50%",
-  left: "50%",
+  top: "30%",
+  left: "45%",
   transform: "translate(-50%, -50%)",
-  width: "100%",
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  border: "none",
   boxShadow: 24,
   p: 4,
+  width: "75%",
 };
 
 export default function Catrgories() {
