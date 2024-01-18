@@ -13,7 +13,7 @@ const StyledBadge = styled(Badge)(() => ({
   },
 }));
 const handleclick = () => {
-  console.log("clciked");
+  console.log("The Button was clicked");
 };
 export default function WhislistToggler() {
   return (
