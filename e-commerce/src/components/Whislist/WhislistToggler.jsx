@@ -3,6 +3,9 @@ import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import WhislistImage from "../../ImageForWeb/favorite.png";
+import { collection } from "firebase/firestore/lite";
+import { db } from "../../firebaseConfig";
+import { getDocs } from "firebase/firestore/lite";
 
 const StyledBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
@@ -12,7 +15,12 @@ const StyledBadge = styled(Badge)(() => ({
     padding: "0 4px",
   },
 }));
-const handleclick = () => {
+const handleclick = async () => {
+  const querySnapshot = await getDocs(collection(db, "WhislistData"));
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    console.log(doc.id, doc.data(), data.Price);
+  });
   console.log("The Button was clicked");
 };
 export default function WhislistToggler() {

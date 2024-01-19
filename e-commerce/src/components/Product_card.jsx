@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { collection, addDoc, getDocs } from "firebase/firestore/lite";
+import { collection, addDoc } from "firebase/firestore/lite";
 import plain from "../ImageForWeb/heart.png";
 import RedHeart from "../ImageForWeb/R-heart.png";
 import { db } from "../firebaseConfig";
@@ -15,19 +15,19 @@ const ProductCard = (List_item) => {
       Price: `${List_item.List_item.price}`,
       Qunatity: 0,
     });
-    const querySnapshot = await getDocs(collection(db, "CartData"));
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      // const id = doc.id;
-      console.log(doc.id, doc.data(), data.Price);
-    });
+    // const querySnapshot = await getDocs(collection(db, "CartData"));
+    // querySnapshot.forEach((doc) => {
+    //   const data = doc.data();
+    //   // const id = doc.id;
+    //   console.log(doc.id, doc.data(), data.Price);
+    // });
     // const coll = collection(db, "cities");
     // const snapshot = await getCountFromServer(coll);
     // console.log("count: ", snapshot.data().count);
     console.log("Document written with ID: ", docRef.id);
   };
 
-  const handleToggle = async () => {
+  const handleWhisList = async () => {
     if (!toggle) {
       const docRef = await addDoc(collection(db, "WhislistData"), {
         Title: `${List_item.List_item.title}`,
@@ -52,7 +52,7 @@ const ProductCard = (List_item) => {
           right: "10px",
           display: "flex",
         }}
-        onClick={handleToggle}
+        onClick={handleWhisList}
         src={toggle ? RedHeart : plain}
         alt="Toggler"
       />
