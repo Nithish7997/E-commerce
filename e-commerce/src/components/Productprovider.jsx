@@ -16,7 +16,7 @@ const Item = styled(Paper)(() => ({
   position: "relative",
 }));
 
-const Productprovider = () => {
+const Productprovider = ({ cartData, wishListData }) => {
   const location = useLocation();
   const [product, setProduct] = useState();
   let path = location.pathname.slice(1);
@@ -27,13 +27,25 @@ const Productprovider = () => {
       .then((json) => setProduct(json));
   };
   useEffect(() => {
-    get_data();
+    if (cartData) {
+      setProduct(cartData);
+    } else if (wishListData) {
+      setProduct(wishListData);
+    } else {
+      get_data();
+    }
   }, []);
   return (
     <>
       <div>
         {product === undefined ? (
-          get_data
+          cartData ? (
+            setProduct(cartData)
+          ) : wishListData ? (
+            setProduct(wishListData)
+          ) : (
+            get_data
+          )
         ) : (
           <>
             <Box sx={{ flexGrow: 1 }}>

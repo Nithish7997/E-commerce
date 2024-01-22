@@ -6,6 +6,7 @@ import WhislistImage from "../../ImageForWeb/favorite.png";
 import { collection } from "firebase/firestore/lite";
 import { db } from "../../firebaseConfig";
 import { getDocs } from "firebase/firestore/lite";
+import { useNavigate } from "react-router";
 
 const StyledBadge = styled(Badge)(() => ({
   "& .MuiBadge-badge": {
@@ -15,22 +16,31 @@ const StyledBadge = styled(Badge)(() => ({
     padding: "0 4px",
   },
 }));
-const handleclick = async () => {
-  const querySnapshot = await getDocs(collection(db, "WhislistData"));
-  querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    console.log(doc.id, doc.data(), data.Price);
-  });
-  console.log("The Button was clicked");
-};
 export default function WhislistToggler() {
+  const [querySnapshot, setQuerySnapShot] = React.useState("");
+  const navigate = useNavigate();
+  const handleclick = async () => {
+    const data = [];
+    const query = await getDocs(collection(db, "WhislistData"));
+    query.forEach((doc) => {
+      data.push(doc.data());
+    });
+    setQuerySnapShot(data);
+  };
+
+  React.useEffect(() => {
+    handleclick();
+  }, []);
   return (
     <IconButton
       sx={{ padding: "unset" }}
       aria-label="cart"
-      onClick={handleclick}
+      onClick={() => {
+        handleclick();
+        navigate(`/wishlist`);
+      }}
     >
-      <StyledBadge badgeContent={4} color="secondary">
+      <StyledBadge badgeContent={querySnapshot.length} color="secondary">
         <img
           src={WhislistImage}
           style={{ width: "37px", height: "36px" }}

@@ -1,20 +1,45 @@
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore/lite";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore/lite";
 import plain from "../ImageForWeb/heart.png";
 import RedHeart from "../ImageForWeb/R-heart.png";
 import { db } from "../firebaseConfig";
-// import { runTransaction } from "firebase/firestore";
 
 const ProductCard = (List_item) => {
+  console.log("List Item", List_item);
   const [toggle, setToggle] = useState(false);
 
   const handlecart = async () => {
-    const docRef = await addDoc(collection(db, "CartData"), {
-      Title: `${List_item.List_item.title}`,
-      Image: `${List_item.List_item.image}`,
-      Price: `${List_item.List_item.price}`,
-      Qunatity: 0,
+    let isInCart = true;
+    let existingQuantity = 0;
+    let itemId = "";
+    const query = await getDocs(collection(db, "CartData"));
+    query.forEach((doc) => {
+      if (doc.data().title == List_item.List_item.title) {
+        isInCart = false;
+        existingQuantity = doc.data().quantity;
+        itemId = doc.id;
+        return;
+      }
     });
+    if (isInCart) {
+      const docRef = await addDoc(collection(db, "CartData"), {
+        title: `${List_item.List_item.title}`,
+        image: `${List_item.List_item.image}`,
+        price: `${List_item.List_item.price}`,
+        quantity: 0,
+      });
+    } else {
+      const cartItemRef = doc(db, "CartData", itemId);
+      const documentRef = await updateDoc(cartItemRef, {
+        quantity: existingQuantity + 1,
+      });
+    }
     // const querySnapshot = await getDocs(collection(db, "CartData"));
     // querySnapshot.forEach((doc) => {
     //   const data = doc.data();
@@ -24,17 +49,27 @@ const ProductCard = (List_item) => {
     // const coll = collection(db, "cities");
     // const snapshot = await getCountFromServer(coll);
     // console.log("count: ", snapshot.data().count);
-    console.log("Document written with ID: ", docRef.id);
+    // console.log("Document written with ID: ", docRef.id);
   };
 
   const handleWhisList = async () => {
-    if (!toggle) {
-      const docRef = await addDoc(collection(db, "WhislistData"), {
-        Title: `${List_item.List_item.title}`,
-        Image: `${List_item.List_item.image}`,
-        Price: `${List_item.List_item.price}`,
-      });
-      console.log("Document written with ID: ", docRef.id);
+    let isInWishList = true;
+    const query = await getDocs(collection(db, "WhislistData"));
+    query.forEach((doc) => {
+      if (doc.data().title == List_item.List_item.title) {
+        isInWishList = false;
+        return;
+      }
+    });
+    if (isInWishList) {
+      if (!toggle) {
+        const docRef = await addDoc(collection(db, "WhislistData"), {
+          title: `${List_item.List_item.title}`,
+          image: `${List_item.List_item.image}`,
+          price: `${List_item.List_item.price}`,
+        });
+        // console.log("Document written with ID: ", docRef.id);
+      }
     }
 
     // await runTransaction(db, async (transaction) => {
