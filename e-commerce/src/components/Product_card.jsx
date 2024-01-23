@@ -9,15 +9,20 @@ import {
 import plain from "../ImageForWeb/heart.png";
 import RedHeart from "../ImageForWeb/R-heart.png";
 import { db } from "../firebaseConfig";
+import { useLocation } from "react-router";
 
 const ProductCard = (List_item) => {
-  console.log("List Item", List_item);
+  // console.log("List Item", List_item);
+  const location = useLocation();
   const [toggle, setToggle] = useState(false);
-
+  let path = location.pathname.slice(1);
+  path = path.replace("%20", " ");
+  // console.log(path);
   const handlecart = async () => {
     let isInCart = true;
     let existingQuantity = 0;
     let itemId = "";
+
     const query = await getDocs(collection(db, "CartData"));
     query.forEach((doc) => {
       if (doc.data().title == List_item.List_item.title) {
@@ -109,7 +114,21 @@ const ProductCard = (List_item) => {
       <p style={{ display: "flex", fontWeight: "900" }}>
         Price:{List_item.List_item.price}
       </p>
-      <button onClick={handlecart}>Add to Cart</button>
+      {path === "cart" ? (
+        <p
+          style={{
+            fontSize: "19px",
+            width: "113px",
+            marginLeft: "161px",
+            border: "2px solid black",
+            height: "25px",
+          }}
+        >
+          Quantity:{List_item.List_item.quantity}
+        </p>
+      ) : (
+        <button onClick={handlecart}>Add to Cart</button>
+      )}
     </>
   );
 };

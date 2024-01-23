@@ -27,9 +27,9 @@ const Productprovider = ({ cartData, wishListData }) => {
       .then((json) => setProduct(json));
   };
   useEffect(() => {
-    if (cartData) {
+    if (cartData || path === "cart") {
       setProduct(cartData);
-    } else if (wishListData) {
+    } else if (wishListData || path === "wishlist") {
       setProduct(wishListData);
     } else {
       get_data();
