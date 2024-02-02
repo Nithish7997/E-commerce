@@ -1,36 +1,30 @@
-import {
-  Children,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { useLocation } from "react-router";
+import React, { useContext } from "react";
+import { getDocs } from "firebase/firestore/lite";
+import { collection } from "firebase/firestore/lite";
+import { db } from "../firebaseConfig";
+import { createContext, useEffect, useState } from "react";
 
-const ProductProvider = createContext();
-
-const GetProducts = () => {
-  const location = useLocation();
-  const [product, setProduct] = useState();
-  let path = location.pathname.slice(1);
-  path = path.replace("%20", " ");
-  const get_data = async () => {
-    await fetch(`https://fakestoreapi.com/products/category/${path}`)
-      .then((res) => res.json())
-      .then((json) => setProduct(json));
+const cartProduct = createContext();
+const HandleCartData = ({ children }) => {
+  const [cartData, setCartData] = useState();
+  const data = [];
+  const fetchCartData = async () => {
+    const query = await getDocs(collection(db, "CartData"));
+    query.forEach((doc) => {
+      data.push(doc.data());
+    });
+    setCartData(data);
   };
+  console.log(cartData);
   useEffect(() => {
-    get_data();
+    fetchCartData();
   }, []);
-  console.log(product);
   return (
-    <ProductProvider.Provider value={product}>
-      {Children}
-    </ProductProvider.Provider>
+    <cartProduct.Provider value={cartData}>{children}</cartProduct.Provider>
   );
 };
-const useProduct = () => {
-  const content = useContext(ProductProvider);
-};
-
-export default GetProducts;
+export function useCartProduct() {
+  const context = useContext(cartProduct);
+  return context;
+}
+export default HandleCartData;

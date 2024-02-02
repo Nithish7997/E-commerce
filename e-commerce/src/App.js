@@ -8,6 +8,8 @@ import GetProducts from "./components/Context";
 import { getDocs } from "firebase/firestore/lite";
 import { collection } from "firebase/firestore/lite";
 import { db } from "./firebaseConfig";
+import { CartData } from "./components/Cart/CartData";
+import HandleCartData from "./components/Context";
 
 function App() {
   const [cartData, setCartData] = React.useState("");
@@ -39,17 +41,23 @@ function App() {
   }, []);
   return (
     <>
-      {/* <HomePage /> */}
-      <Routes>
-        <Route path="/" element={<Signin />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/cart" element={<Productprovider cartData={cartData} />} />
-        <Route
-          path="/wishlist"
-          element={<Productprovider wishListData={wishListData} />}
-        />
-        <Route path="/*" element={<Productprovider />} />
-      </Routes>
+      <HandleCartData>
+        {/* <HomePage /> */}
+        <Routes>
+          <Route path="/" element={<Signin />} />
+          <Route path="/home" element={<HomePage />} />
+          {/* <Route
+            path="/cart"
+            element={<Productprovider cartData={cartData} />}
+          /> */}
+          <Route
+            path="/wishlist"
+            element={<Productprovider wishListData={wishListData} />}
+          />
+          <Route path="/cart" element={<CartData />} />
+          <Route path="/*" element={<Productprovider />} />
+        </Routes>
+      </HandleCartData>
     </>
   );
 }

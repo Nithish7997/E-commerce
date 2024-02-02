@@ -25,7 +25,7 @@ const ProductCard = (List_item) => {
 
     const query = await getDocs(collection(db, "CartData"));
     query.forEach((doc) => {
-      if (doc.data().title == List_item.List_item.title) {
+      if (doc.data().title === List_item.List_item.title) {
         isInCart = false;
         existingQuantity = doc.data().quantity;
         itemId = doc.id;
@@ -37,7 +37,7 @@ const ProductCard = (List_item) => {
         title: `${List_item.List_item.title}`,
         image: `${List_item.List_item.image}`,
         price: `${List_item.List_item.price}`,
-        quantity: 0,
+        quantity: 1,
       });
     } else {
       const cartItemRef = doc(db, "CartData", itemId);
@@ -56,12 +56,46 @@ const ProductCard = (List_item) => {
     // console.log("count: ", snapshot.data().count);
     // console.log("Document written with ID: ", docRef.id);
   };
+  const handleIncrement = async () => {
+    console.log("clciked");
+    let existingQuantity = 0;
+    let itemId = "";
+    const query = await getDocs(collection(db, "CartData"));
+    query.forEach((doc) => {
+      if (doc.data().title === List_item.List_item.title) {
+        existingQuantity = doc.data().quantity;
+        itemId = doc.id;
+        return;
+      }
+    });
+    const cartItemRef = doc(db, "CartData", itemId);
+    const documentRef = await updateDoc(cartItemRef, {
+      quantity: existingQuantity + 1,
+    });
+  };
+  const handleDecrement = async () => {
+    console.log("clciked");
+    let existingQuantity = 0;
+    let itemId = "";
+    const query = await getDocs(collection(db, "CartData"));
+    query.forEach((doc) => {
+      if (doc.data().title === List_item.List_item.title) {
+        existingQuantity = doc.data().quantity;
+        itemId = doc.id;
+        return;
+      }
+    });
+    const cartItemRef = doc(db, "CartData", itemId);
+    const documentRef = await updateDoc(cartItemRef, {
+      quantity: existingQuantity - 1,
+    });
+  };
 
   const handleWhisList = async () => {
     let isInWishList = true;
     const query = await getDocs(collection(db, "WhislistData"));
     query.forEach((doc) => {
-      if (doc.data().title == List_item.List_item.title) {
+      if (doc.data().title === List_item.List_item.title) {
         isInWishList = false;
         return;
       }
@@ -118,13 +152,26 @@ const ProductCard = (List_item) => {
         <p
           style={{
             fontSize: "19px",
-            width: "113px",
+            width: "150px",
             marginLeft: "161px",
             border: "2px solid black",
             height: "25px",
           }}
         >
-          Quantity:{List_item.List_item.quantity}
+          Quantity:
+          <span
+            onClick={handleIncrement}
+            style={{ margin: "10px", fontSize: "20px" }}
+          >
+            +
+          </span>
+          {List_item.List_item.quantity}
+          <span
+            onClick={handleDecrement}
+            style={{ margin: "10px", fontSize: "20px" }}
+          >
+            -
+          </span>
         </p>
       ) : (
         <button onClick={handlecart}>Add to Cart</button>
