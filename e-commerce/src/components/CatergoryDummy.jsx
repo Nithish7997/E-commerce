@@ -6,7 +6,8 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 // import plain from "../ImageForWeb/heart.png";
 // import RedHeart from "../ImageForWeb/R-heart.png";
-import ProductCard from "./Product_card";
+// import ProductCard from "./Product_card";
+import AddingCart from "./AddingCart";
 
 const Item = styled(Paper)(() => ({
   backgroundColor: "#fff",
@@ -19,6 +20,8 @@ const DummyCategory = () => {
   const [productCategory, setProductCategory] = React.useState("");
   const [product, setProduct] = React.useState("");
   const [allProduct, setAllProduct] = React.useState("");
+  const [cart, setCart] = React.useState([]);
+  localStorage.setItem("Cartkey", JSON.stringify(cart));
   const handleAllProducts = async () => {
     await fetch(`https://fakestoreapi.com/products`)
       .then((res) => res.json())
@@ -40,6 +43,7 @@ const DummyCategory = () => {
   React.useEffect(() => {
     category();
   }, []);
+
   return (
     <>
       <div style={{ position: "relative", width: "20%" }}>
@@ -97,7 +101,8 @@ const DummyCategory = () => {
               ? product?.map((item, index) => (
                   <Grid item xs={2} sm={4} md={4} key={index}>
                     <Item sx={{ padding: "5px" }}>
-                      <ProductCard List_item={item} />
+                      {/* <ProductCard List_item={item} /> */}
+                      <AddingCart List_item={item} setCart={setCart} />
                     </Item>
                   </Grid>
                 ))
@@ -105,7 +110,8 @@ const DummyCategory = () => {
               ? allProduct?.map((item, index) => (
                   <Grid item xs={2} sm={4} md={4} key={index}>
                     <Item sx={{ padding: "5px" }}>
-                      <ProductCard List_item={item} />
+                      {/* <ProductCard List_item={item} /> */}
+                      <AddingCart List_item={item} setCart={setCart} />
                     </Item>
                   </Grid>
                 ))

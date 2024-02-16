@@ -1,5 +1,5 @@
 import * as React from "react";
-import AuthDetails from "./components/Signin/AuthDetails";
+// import AuthDetails from "./components/Signin/AuthDetails";
 import Signin from "./components/Signin/signup";
 import HomePage from "./components/homepage";
 import { Routes, Route } from "react-router";
@@ -10,6 +10,7 @@ import { collection } from "firebase/firestore/lite";
 import { db } from "./firebaseConfig";
 import { CartData } from "./components/Cart/CartData";
 import HandleCartData from "./components/Context";
+import { DummyCartData } from "./components/Cart/DummyCartData";
 
 function App() {
   const [cartData, setCartData] = React.useState("");
@@ -54,7 +55,7 @@ function App() {
             path="/wishlist"
             element={<Productprovider wishListData={wishListData} />}
           />
-          <Route path="/cart" element={<CartData />} />
+          <Route path="/cart" element={<DummyCartData />} />
           <Route path="/*" element={<Productprovider />} />
         </Routes>
       </HandleCartData>

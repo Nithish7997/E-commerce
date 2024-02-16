@@ -19,7 +19,18 @@ const StyledBadge = styled(Badge)(() => ({
 
 export default function CartToggler() {
   const [querySnapshot, setQuerySnapShot] = React.useState("");
+  const [totalSum, setTotalSum] = React.useState(0);
   const navigate = useNavigate();
+  let dataload = JSON.parse(localStorage.getItem("Cartkey"));
+  const handleTotalSum = () => {
+    dataload = JSON.parse(localStorage.getItem("Cartkey"));
+    let sum = 0;
+    dataload.forEach((data) => {
+      console.log(data);
+      sum = sum + data.quantity;
+    });
+    setTotalSum(sum);
+  };
   const handleclick = async () => {
     const data = [];
     const query = await getDocs(collection(db, "CartData"));
@@ -30,8 +41,16 @@ export default function CartToggler() {
   };
 
   React.useEffect(() => {
-    handleclick();
+    const interval = setInterval(() => {
+      handleTotalSum();
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
+
+  // React.useEffect(() => {
+  //   // handleclick();
+  //   handleTotalSum();
+  // }, []);
   return (
     <IconButton
       sx={{ padding: "unset" }}
@@ -41,7 +60,7 @@ export default function CartToggler() {
         navigate(`/cart`);
       }}
     >
-      <StyledBadge badgeContent={querySnapshot.length} color="secondary">
+      <StyledBadge badgeContent={totalSum} color="secondary">
         <img
           src={CartImage}
           style={{ width: "37px", height: "36px" }}

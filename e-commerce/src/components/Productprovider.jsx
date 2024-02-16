@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import ProductCard from "./Product_card";
+import AddingCart from "./AddingCart";
 
 const Item = styled(Paper)(() => ({
   backgroundColor: "#fff",
@@ -58,6 +59,7 @@ const Productprovider = ({ cartData, wishListData }) => {
                   <Grid item xs={2} sm={4} md={4} key={index}>
                     <Item sx={{ height: "480px" }}>
                       <ProductCard List_item={items} />
+                      {/* <AddingCart List_item={items} /> */}
                     </Item>
                   </Grid>
                 ))}
